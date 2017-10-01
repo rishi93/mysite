@@ -10,3 +10,9 @@ def home(request):
 
 def page(request, id):
 	return render(request, 'page.html', { 'id': id })
+
+def login(request):
+	return render(request, 'login.html', {})
+
+def profile(request):
+	return render(request, 'profile.html', {})
