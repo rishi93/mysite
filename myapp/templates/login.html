@@ -16,7 +16,8 @@
         <div class="card">
             <h4 class="card-header">Login</h4>
             <div class="card-body">
-                <form>
+                <form action="" method="POST">
+                    {% csrf_token %}
                     <div class="form-group">
                         <label>Username:</label>
                         <input type="text" class="form-control" name="username" placeholder="Enter username">

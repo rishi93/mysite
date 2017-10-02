@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '5q!+#-^ovu+ky+_b46*6ado#tm_nxobc)=$1h&66c#lu0()h=3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['rishisnotes.pythonanywhere.com', 'localhost']
 
