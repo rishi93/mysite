@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -10,7 +10,7 @@ from .models import Question
 def home(request):
 	questions = Question.objects.all()
 	today_datetime = timezone.now()
-	return render(request, 'home.html', { 'time': today_datetime, 'questions': questions })
+	return render(request, 'home.html', { 'time': today_datetime, 'questions': questions, 'user': request.user })
 
 def page(request, id):
 	return render(request, 'page.html', { 'id': id })
@@ -27,6 +27,10 @@ def my_login(request):
 			return HttpResponse("Wrong login credentials")
 	else:
 		return render(request, 'login.html', {})
+
+def my_logout(request):
+	logout(request)
+	return redirect('home')
 
 def register(request):
 	if request.method == "POST":
