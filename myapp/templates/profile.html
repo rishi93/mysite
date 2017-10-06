@@ -33,6 +33,13 @@
             <a href="#" class="list-group-item list-group-item-action">Profile</a>
             <a href="#" class="list-group-item list-group-item-action">Reputation</a>
         </div>
+		<br />
+		<h4>Questions you have asked:</h4>
+		<ul class="list-group">
+			{% for question in questions %}
+			<li class="list-group-item"><a href="{% url 'page' question_id=question.pk %}">Question #{{ question.pk }}</a></li>
+			{% endfor %}
+		</ul>
     </div>
 </body>
 

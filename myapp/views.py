@@ -8,12 +8,15 @@ from .models import Question
 
 # Create your views here.
 def home(request):
+	#Get all the questions in database
 	questions = Question.objects.all()
 	today_datetime = timezone.now()
 	return render(request, 'home.html', { 'time': today_datetime, 'questions': questions, 'user': request.user })
 
-def page(request, id):
-	return render(request, 'page.html', { 'id': id })
+def page(request, question_id):
+	#Get the question with particular is
+	question = Question.objects.get(pk = question_id)
+	return render(request, 'page.html', { 'question': question })
 
 def my_login(request):
 	if request.method == "POST":
@@ -57,6 +60,7 @@ def new_question(request):
 @login_required
 def profile(request):
 	if request.user.is_authenticated:
-		return render(request, 'profile.html', {'user': request.user})
+		questions = Question.objects.filter(author = request.user)
+		return render(request, 'profile.html', {'user': request.user, 'questions': questions})
 	else:
 		return HttpResponse("You need to login to view this page!")
