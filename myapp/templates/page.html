@@ -30,21 +30,32 @@
 		</div>
 	</nav>
 	<div class="container-fluid">
-		<div class="jumbotron">
-			<div class="card text-center">
-				<div class="card-header">
-					Question #{{ question.pk }}
-				</div>
-				<div class="card-body">
-					<p class="card-text">{{ question.question_text }}</p>
-				</div>
-				<div class="card-footer text-muted">
-				  Created at: {{ question.created_at }}
-				  Author: {{ question.author }}
-				</div>
+		<div class="card text-center">
+			<div class="card-header">
+				Question #{{ question.pk }}
 			</div>
-			<a href="{% url 'home' %}">Go back to home</a>
+			<div class="card-body">
+				<p class="card-text">{{ question.question_text }}</p>
+			</div>
+			<div class="card-footer text-muted">
+			  Created at: {{ question.created_at }}
+			  Author: {{ question.author }}
+			</div>
 		</div>
+		<a href="{% url 'home' %}">Go back to home</a>
+		<br />
+		<br />
+		<ul class="list-group">
+			{% for comment in question.comments.all %}
+				<li class="list-group-item">
+					<div>
+						<p>{{ comment.comment_text }}</p>
+						<small>Created at: {{ comment.created_at }}</small>
+						<small>Author: {{ comment.author }}</small>
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
 	</div>
 </body>
 </html>
