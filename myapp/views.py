@@ -44,6 +44,17 @@ def register(request):
 		return render(request, 'register.html', {})
 
 @login_required
+def new_question(request):
+	if request.method == "POST":
+		new_question = Question()
+		new_question.question_text = request.POST['question_text']
+		new_question.author = request.user
+		new_question.save()
+		return HttpResponse("Your question was submitted successfully!")
+	else:
+		return render(request, 'new_question.html', { 'user': request.user })
+
+@login_required
 def profile(request):
 	if request.user.is_authenticated:
 		return render(request, 'profile.html', {'user': request.user})
