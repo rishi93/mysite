@@ -14,9 +14,16 @@ def home(request):
 	return render(request, 'home.html', { 'time': today_datetime, 'questions': questions, 'user': request.user })
 
 def page(request, question_id):
+	if request.method == "POST":
+		new_comment = Comment()
+		new_comment.question = Question.objects.get(pk = question_id)
+		new_comment.comment_text = request.POST['comment_text']
+		new_comment.author = request.user
+		new_comment.save()
+		return redirect('page', question_id=question_id)
 	#Get the question with particular is
 	question = Question.objects.get(pk = question_id)
-	return render(request, 'page.html', { 'question': question })
+	return render(request, 'page.html', { 'question': question, 'user': request.user })
 
 def my_login(request):
 	if request.method == "POST":
@@ -53,7 +60,7 @@ def new_question(request):
 		new_question.question_text = request.POST['question_text']
 		new_question.author = request.user
 		new_question.save()
-		return HttpResponse("Your question was submitted successfully!")
+		return redirect('home')
 	else:
 		return render(request, 'new_question.html', { 'user': request.user })
 
