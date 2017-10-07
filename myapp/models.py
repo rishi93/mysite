@@ -1,8 +1,11 @@
 from django.db import models
 from django.utils import timezone
+#Upload image files to Cloudinary
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Question(models.Model):
+	picture = CloudinaryField('image', null = True)
 	question_text = models.TextField()
 	created_at = models.DateTimeField(default = timezone.now())
 	author = models.ForeignKey('auth.User')

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import Question, Comment
+import cloudinary
 
 # Create your views here.
 def home(request):
@@ -60,6 +61,10 @@ def new_question(request):
 		new_question.question_text = request.POST['question_text']
 		new_question.author = request.user
 		new_question.save()
+		cloudinary.uploader.upload(
+			request.FILES['picture'],
+			public_id = "picture" + str(new_question.pk),
+		)
 		return redirect('home')
 	else:
 		return render(request, 'new_question.html', { 'user': request.user })

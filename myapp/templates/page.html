@@ -29,11 +29,19 @@
 			</div>
 		</div>
 	</nav>
+	{% load cloudinary %}
 	<div class="container-fluid">
 		<div class="card text-center">
 			<div class="card-header">
 				Question #{{ question.pk }}
 			</div>
+			<img class="card-img-top">
+				{% with question.pk|stringformat:"s" as picture_id %}
+					{% with "picture"|add:picture_id as final_id %}
+						{% cloudinary final_id crop="fill" %}
+					{% endwith %}
+				{% endwith %}
+			</img>
 			<div class="card-body">
 				<p class="card-text">{{ question.question_text }}</p>
 			</div>

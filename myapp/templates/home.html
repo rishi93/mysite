@@ -29,6 +29,7 @@
 			</div>
 		</div>
 	</nav>
+	{% load cloudinary %}
 	<div class="container-fluid">
 		<div class="jumbotron">
 			<h1>Buzzer, the social network for quizzers</h1>
@@ -41,6 +42,13 @@
 				<div class="card-header">
 					<a href="{% url 'page' question_id=question.pk %}">Question #{{ question.pk }}</a>
 				  </div>
+				  <img class="card-img-top">
+					  {% with question.pk|stringformat:"s" as picture_id %}
+						  {% with "picture"|add:picture_id as final_id %}
+							  {% cloudinary final_id crop="scale" %}
+						  {% endwith %}
+					  {% endwith %}
+			  	  </img>
 				  <div class="card-body">
 				    	<p class="card-text">{{ question.question_text }}</p>
 				  </div>
