@@ -22,3 +22,7 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return self.comment_text
+
+class Like(models.Model):
+	question = models.ForeignKey(Question)
+	user = models.ForeignKey('auth.User')
