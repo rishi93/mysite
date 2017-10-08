@@ -35,13 +35,15 @@
 			<div class="card-header">
 				Question #{{ question.pk }}
 			</div>
-			<img class="card-img-top">
+			{% if question.if_picture %}
+			<div>
 				{% with question.pk|stringformat:"s" as picture_id %}
 					{% with "picture"|add:picture_id as final_id %}
 						{% cloudinary final_id crop="fit" %}
 					{% endwith %}
 				{% endwith %}
-			</img>
+			</div>
+			{% endif %}
 			<div class="card-body">
 				<p class="card-text">{{ question.question_text }}</p>
 			</div>
