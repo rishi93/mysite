@@ -20,6 +20,7 @@ def page(request, question_id):
 		new_comment.question = Question.objects.get(pk = question_id)
 		new_comment.comment_text = request.POST['comment_text']
 		new_comment.author = request.user
+		new_comment.created_at = timezone.now()
 		new_comment.save()
 		return redirect('page', question_id=question_id)
 	#Get the question with particular is
@@ -60,11 +61,18 @@ def new_question(request):
 		new_question = Question()
 		new_question.question_text = request.POST['question_text']
 		new_question.author = request.user
+		new_question.created_at = timezone.now()
+		if request.FILES.get('picture', False):
+			new_question.if_picture = True
+		else:
+			new_question.if_picture = False
 		new_question.save()
-		cloudinary.uploader.upload(
-			request.FILES['picture'],
-			public_id = "picture" + str(new_question.pk),
-		)
+		#Upload the picture to a different cloud server
+		if new_question.if_picture:
+			image_result = cloudinary.uploader.upload(
+				request.FILES['picture'],
+				public_id = "picture" + str(new_question.pk),
+			)
 		return redirect('home')
 	else:
 		return render(request, 'new_question.html', { 'user': request.user })

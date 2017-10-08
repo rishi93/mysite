@@ -38,7 +38,7 @@
 			<img class="card-img-top">
 				{% with question.pk|stringformat:"s" as picture_id %}
 					{% with "picture"|add:picture_id as final_id %}
-						{% cloudinary final_id crop="fill" %}
+						{% cloudinary final_id crop="fit" %}
 					{% endwith %}
 				{% endwith %}
 			</img>
