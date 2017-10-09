@@ -12,6 +12,14 @@ def home(request):
 	#Get all the questions in database
 	questions = Question.objects.all()
 	today_datetime = timezone.now()
+	if request.user.is_authenticated():
+		upvotes = []
+		downvotes = []
+		for q in request.user.upvotes.all():
+			upvotes.append(q.pk)
+		for q in request.user.downvotes.all():
+			downvotes.append(q.pk)
+		return render(request, 'home.html', { 'time': today_datetime, 'questions': questions, 'user': request.user, 'upvotes': upvotes, 'downvotes': downvotes })
 	return render(request, 'home.html', { 'time': today_datetime, 'questions': questions, 'user': request.user })
 
 def page(request, question_id):
@@ -25,7 +33,13 @@ def page(request, question_id):
 		return redirect('page', question_id=question_id)
 	#Get the question with particular is
 	question = Question.objects.get(pk = question_id)
-	return render(request, 'page.html', { 'question': question, 'user': request.user })
+	upvotes = []
+	downvotes = []
+	for u in question.upvotes.all():
+		upvotes.append(u.username)
+	for u in question.downvotes.all():
+		downvotes.append(u.username)
+	return render(request, 'page.html', { 'question': question, 'user': request.user, 'upvotes': upvotes, 'downvotes': downvotes })
 
 def my_login(request):
 	if request.method == "POST":

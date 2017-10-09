@@ -93,13 +93,21 @@
 				  <div class="card-body">
 				      <p class="card-text">{{ question.question_text }}</p>
 					  {% if user.is_authenticated %}
-					  	<button type="button" class="upvote-button btn btn-light"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-					  	<button type="button" class="downvote-button btn btn-light"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+					      {% if question.pk in upvotes %}
+						      <button type="button" class="upvote-button btn btn-dark"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+						  {% else %}
+					  		  <button type="button" class="upvote-button btn btn-light"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+						  {% endif %}
+						  {% if question.pk in downvotes %}
+					  		  <button type="button" class="downvote-button btn btn-dark"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+						  {% else %}
+							  <button type="button" class="downvote-button btn btn-light"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+						  {% endif %}
 					  {% else %}
-					  	<button type="button" class="upvote-button btn btn-light" disabled><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-					  	<button type="button" class="downvote-button btn btn-light" disabled><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+					  	  <button type="button" class="upvote-button btn btn-light" disabled><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+					  	  <button type="button" class="downvote-button btn btn-light" disabled><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
 					  {% endif %}
-				  </div>
+				   </div>
 			</div>
 			<br />
 		{% endfor %}
