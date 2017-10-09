@@ -98,3 +98,31 @@ def profile(request):
 		return render(request, 'profile.html', {'user': request.user, 'questions': questions})
 	else:
 		return HttpResponse("You need to login to view this page!")
+
+@login_required
+def upvote(request, question_id):
+	question = Question.objects.get(pk = question_id)
+	user = request.user
+	question.upvotes.add(user)
+	return HttpResponse()
+
+@login_required
+def downvote(request, question_id):
+	question = Question.objects.get(pk = question_id)
+	user = request.user
+	question.downvotes.add(user)
+	return HttpResponse()
+
+@login_required
+def remove_upvote(request, question_id):
+	question = Question.objects.get(pk = question_id)
+	user = request.user
+	question.upvotes.remove(user)
+	return HttpResponse()
+
+@login_required
+def remove_downvote(request, question_id):
+	question = Question.objects.get(pk = question_id)
+	user = request.user
+	question.downvotes.remove(user)
+	return HttpResponse()
