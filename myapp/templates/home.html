@@ -12,50 +12,36 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script>
 	$(document).ready(function(){
-		$("#upvote-button").click(function(){
-			if($("#upvote-button").attr("class") == "btn btn-light"){
-				if($("#downvote-button").attr("class") == "btn btn-dark"){
-					var downvotes = $("#downvote-count").text();
-					downvotes = Number(downvotes);
-					downvotes -= 1;
-					$("#downvote-count").text(downvotes);
-					$("#downvote-button").addClass("btn-light").removeClass("btn-dark");
-				}
-				var upvotes = $("#upvote-count").text();
+		$(".upvote-button").click(function(){
+			if($(this).attr("class") == "upvote-button btn btn-light"){
+				var upvotes = $(this).children("span").text();
 				upvotes = Number(upvotes);
 				upvotes += 1;
-				$("#upvote-count").text(upvotes);
-				$("#upvote-button").addClass("btn-dark").removeClass("btn-light");
+				$(this).children("span").text(upvotes);
+				$(this).addClass("btn-dark").removeClass("btn-light");
 			}
 			else{
-				var upvotes = $("#upvote-count").text();
+				var upvotes = $(this).children("span").text();
 				upvotes = Number(upvotes);
 				upvotes -= 1;
-				$("#upvote-count").text(upvotes);
-				$("#upvote-button").addClass("btn-light").removeClass("btn-dark");
+				$(this).children("span").text(upvotes);
+				$(this).addClass("btn-light").removeClass("btn-dark");
 			}
 		});
-		$("#downvote-button").click(function(){
-			if($("#downvote-button").attr("class") == "btn btn-light"){
-				if($("#upvote-button").attr("class") == "btn btn-dark"){
-					var upvotes = $("#upvote-count").text();
-					upvotes = Number(upvotes);
-					upvotes -= 1;
-					$("#upvote-count").text(upvotes);
-					$("#upvote-button").addClass("btn-light").removeClass("btn-dark");
-				}
-				var downvotes = $("#downvote-count").text();
+		$(".downvote-button").click(function(){
+			if($(this).attr("class") == "downvote-button btn btn-light"){
+				var downvotes = $(this).children("span").text();
 				downvotes = Number(downvotes);
 				downvotes += 1;
-				$("#downvote-count").text(downvotes);
-				$("#downvote-button").addClass("btn-dark").removeClass("btn-light");
+				$(this).children("span").text(downvotes);
+				$(this).addClass("btn-dark").removeClass("btn-light");
 			}
 			else{
-				var downvotes = $("#downvote-count").text();
+				var downvotes = $(this).children("span").text();
 				downvotes = Number(downvotes);
 				downvotes -= 1;
-				$("#downvote-count").text(downvotes);
-				$("#downvote-button").addClass("btn-light").removeClass("btn-dark");
+				$(this).children("span").text(downvotes);
+				$(this).addClass("btn-light").removeClass("btn-dark");
 			}
 		});
 	});
@@ -106,8 +92,13 @@
 				  {% endif %}
 				  <div class="card-body">
 				      <p class="card-text">{{ question.question_text }}</p>
-					  <button type="button" id="upvote-button" class="btn btn-light"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-					  <button type="button" id="downvote-button" class="btn btn-light"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+					  {% if user.is_authenticated %}
+					  	<button type="button" class="upvote-button btn btn-light"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+					  	<button type="button" class="downvote-button btn btn-light"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+					  {% else %}
+					  	<button type="button" class="upvote-button btn btn-light" disabled><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+					  	<button type="button" class="downvote-button btn btn-light" disabled><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+					  {% endif %}
 				  </div>
 			</div>
 			<br />

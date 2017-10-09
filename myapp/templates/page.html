@@ -100,8 +100,13 @@
 			{% endif %}
 			<div class="card-body">
 				<p class="card-text">{{ question.question_text }}</p>
-				<button type="button" id="upvote-button" class="btn btn-light"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-				<button type="button" id="downvote-button" class="btn btn-light"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+				{% if user.is_authenticated %}
+					<button type="button" id="upvote-button" class="btn btn-light"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+					<button type="button" id="downvote-button" class="btn btn-light"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+				{% else %}
+					<button type="button" id="upvote-button" class="btn btn-light" disabled><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+					<button type="button" id="downvote-button" class="btn btn-light" disabled><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+				{% endif %}
 			</div>
 		</div>
 		<a href="{% url 'home' %}">Go back to home</a>
