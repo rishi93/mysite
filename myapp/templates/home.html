@@ -14,6 +14,13 @@
 	$(document).ready(function(){
 		$(".upvote-button").click(function(){
 			if($(this).attr("class") == "upvote-button btn btn-light"){
+				if($(this).next().attr("class") == "downvote-button btn btn-dark"){
+					var downvotes = $(this).next().children("span").text();
+					downvotes = Number(downvotes);
+					downvotes -= 1;
+					$(this).next().children("span").text(downvotes);
+					$(this).next().addClass("btn-light").removeClass("btn-dark");
+				}
 				$.ajax({
 					url: $(this).attr("href"),
 					success: function(){
@@ -42,6 +49,13 @@
 		});
 		$(".downvote-button").click(function(){
 			if($(this).attr("class") == "downvote-button btn btn-light"){
+				if($(this).prev().attr("class") == "upvote-button btn btn-dark"){
+					var upvotes = $(this).prev().children("span").text();
+					upvotes = Number(upvotes);
+					upvotes -= 1;
+					$(this).prev().children("span").text(upvotes);
+					$(this).prev().addClass("btn-light").removeClass("btn-dark");
+				}
 				$.ajax({
 					url: $(this).attr("href"),
 					success: function(){
