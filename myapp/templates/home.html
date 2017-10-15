@@ -15,6 +15,9 @@
 		$(".upvote-button").click(function(){
 			if($(this).attr("class") == "upvote-button btn btn-light"){
 				if($(this).next().attr("class") == "downvote-button btn btn-dark"){
+					$.ajax({
+						url: $(this).next().attr("href")
+					});
 					var downvotes = $(this).next().children("span").text();
 					downvotes = Number(downvotes);
 					downvotes -= 1;
@@ -50,6 +53,9 @@
 		$(".downvote-button").click(function(){
 			if($(this).attr("class") == "downvote-button btn btn-light"){
 				if($(this).prev().attr("class") == "upvote-button btn btn-dark"){
+					$.ajax({
+						url: $(this).prev().attr("href")
+					});
 					var upvotes = $(this).prev().children("span").text();
 					upvotes = Number(upvotes);
 					upvotes -= 1;
