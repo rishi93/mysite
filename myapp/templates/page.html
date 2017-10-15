@@ -15,12 +15,21 @@
 		$("#upvote-button").click(function(){
 			if($("#upvote-button").attr("class") == "btn btn-light"){
 				if($("#downvote-button").attr("class") == "btn btn-dark"){
+					$.ajax({
+						url: $('#downvote-button').attr("href")
+					});
 					var downvotes = $("#downvote-count").text();
 					downvotes = Number(downvotes);
 					downvotes -= 1;
 					$("#downvote-count").text(downvotes);
 					$("#downvote-button").addClass("btn-light").removeClass("btn-dark");
 				}
+				$.ajax({
+					url: $('#upvote-button').attr("href"),
+					success: function(){
+						alert("Question has been upvoted")
+					}
+				});
 				var upvotes = $("#upvote-count").text();
 				upvotes = Number(upvotes);
 				upvotes += 1;
@@ -28,6 +37,12 @@
 				$("#upvote-button").addClass("btn-dark").removeClass("btn-light");
 			}
 			else{
+				$.ajax({
+					url: $("#upvote-button").attr("href"),
+					success: function(){
+						alert("Question has been upvoted")
+					}
+				});
 				var upvotes = $("#upvote-count").text();
 				upvotes = Number(upvotes);
 				upvotes -= 1;
@@ -38,12 +53,21 @@
 		$("#downvote-button").click(function(){
 			if($("#downvote-button").attr("class") == "btn btn-light"){
 				if($("#upvote-button").attr("class") == "btn btn-dark"){
+					$.ajax({
+						url: $("#upvote-button").attr("href")
+					});
 					var upvotes = $("#upvote-count").text();
 					upvotes = Number(upvotes);
 					upvotes -= 1;
 					$("#upvote-count").text(upvotes);
 					$("#upvote-button").addClass("btn-light").removeClass("btn-dark");
 				}
+				$.ajax({
+					url: $("#downvote-button").attr("href"),
+					success: function(){
+						alert("Question has been downvoted");
+					}
+				});
 				var downvotes = $("#downvote-count").text();
 				downvotes = Number(downvotes);
 				downvotes += 1;
@@ -51,6 +75,12 @@
 				$("#downvote-button").addClass("btn-dark").removeClass("btn-light");
 			}
 			else{
+				$.ajax({
+					url: $("#downvote-button").attr("href"),
+					success: function(){
+						alert("Question has been downvoted");
+					}
+				});
 				var downvotes = $("#downvote-count").text();
 				downvotes = Number(downvotes);
 				downvotes -= 1;
@@ -102,14 +132,14 @@
 				<p class="card-text">{{ question.question_text }}</p>
 				{% if user.is_authenticated %}
 					{% if user.username in upvotes %}
-						<button type="button" id="upvote-button" class="btn btn-dark"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+						<button type="button" id="upvote-button" href="{% url 'remove_upvote' question_id=question.pk %}" class="btn btn-dark"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
 					{% else %}
-						<button type="button" id="upvote-button" class="btn btn-light"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+						<button type="button" id="upvote-button" href="{% url 'upvote' question_id=question.pk %}" class="btn btn-light"><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
 					{% endif %}
 					{% if user.username in downvotes %}
-						<button type="button" id="downvote-button" class="btn btn-dark"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+						<button type="button" id="downvote-button" href="{% url 'remove_downvote' question_id=question.pk %}" class="btn btn-dark"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
 					{% else %}
-						<button type="button" id="downvote-button" class="btn btn-light"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+						<button type="button" id="downvote-button" href="{% url 'downvote' question_id=question.pk %}" class="btn btn-light"><span id="downvote-count">{{ question.downvotes.all.count }}</span> <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
 					{% endif %}
 				{% else %}
 					<button type="button" id="upvote-button" class="btn btn-light" disabled><span id="upvote-count">{{ question.upvotes.all.count }}</span> <i class="fa fa-arrow-up" aria-hidden="true"></i></button>
